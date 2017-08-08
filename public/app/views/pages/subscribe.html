@@ -1,0 +1,43 @@
+<div class="row">
+<h3>Weather Powered Email</h3>
+</div>
+<hr>
+<form name ="regForm" ng-submit ="register.regUser(regData, regForm.$valid);">
+		<div  ng-class="{'has-success':(regForm.email.$valid && !regForm.email.$pristine && !register.emailInvalid), 'has-error':(!regForm.email.$valid && !regForm.email.$pristine) ||(!regForm.email.$valid && regForm.$submitted || register.emailInvalid)}">
+	    	<label>Email Adress</label><br>
+	   		 <input ng-disabled ="app.disabled" type = "text" class="form-control" name = "email" placeholder="Please enter email" ng-model="register.regData.email" ng-minlength ="3" ng-maxlength="35" ng-pattern="/^[a-zA-Z0-9._%-+]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" ng-blur="register.checkEmail(regData)" required>
+	   		
+			 <p class = "help-block" ng-show="(!regForm.email.$pristine && regForm.email.$error.required)|| (regForm.$submitted && regForm.email.$error.required)">This feild is required</p>
+			<ul ng-show="(!regForm.email.$pristine && regForm.email.$error.pattern)||
+			    (!regForm.email.$pristine && regForm.email.$error.minlength) || (!regForm.email.$pristine && regForm.email.$error.maxlength)" class = "help block">
+			   <li style="color:red;">Must contain '@'</li>
+			   <li style="color:red;">Must NOT contain any special characters</li>
+			   <li style="color:red;">Must contain be between 3 to 25 characters</li>
+			</ul>
+    	</div>
+
+	    <label>Location:</label>
+	    <select name="city_id" class="form-control" ng-model="register.regData.location" required ng-disabled ="app.disabled">
+	    	<option ng-repeat= "c in cities | limitTo:100| orderBy:'city'" value="{{c.city}}:{{c.state}}">
+	    	{{c.city}}, {{c.state}}
+	    	</option>
+	    </select>
+	    <br>
+
+	     <button ng-disabled ="app.disabled" type = "submit" class ="btn btn-primary">Subscribe</button>
+</form>
+<br>
+<div class="jumbotron text-center" ng-show="register.loading">
+	<p>Loadding.....</p>
+</div>
+
+<div class="row show-hide-message" ng-show="register.successMsg">
+	<div class="alert alert-success"> {{register.successMsg}}</div>
+</div><br>
+
+<div class="row show-hide-message" ng-show="register.errorMsg">
+	<div class="alert alert-danger"> {{register.errorMsg}}</div>
+</div>
+<div class="pull-right">
+ <h4>Powered by: <img  width="100px" src="https://icons.wxug.com/logos/JPG/wundergroundLogo_4c_horz.jpg"></h4>
+</div>
